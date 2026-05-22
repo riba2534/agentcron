@@ -1,0 +1,29 @@
+{
+  "name": "@cct/runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cct-runner": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "node build.mjs && chmod +x ./dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "start": "node ./dist/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cct/claude-cli": "workspace:*",
+    "@cct/db": "workspace:*",
+    "@cct/prompt-safe": "workspace:*",
+    "@cct/secrets": "workspace:*",
+    "@cct/shared": "workspace:*",
+    "@prisma/client": "5.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.5",
+    "esbuild": "^0.28.0",
+    "typescript": "5.7.2",
+    "vitest": "2.1.9"
+  }
+}

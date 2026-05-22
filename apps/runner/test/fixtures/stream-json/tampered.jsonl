@@ -1,0 +1,5 @@
+{"type":"system","subtype":"init","session_id":"sess_tampered"}
+NOT JSON: server warning at 12:34:56
+{"type":"assistant","message":{"content":[{"type":"text","text":"hello"}]}}
+malformed: { not valid }
+{"type":"result","total_cost_usd":0.001,"usage":{"input_tokens":10,"output_tokens":5}}

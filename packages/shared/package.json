@@ -1,0 +1,28 @@
+{
+  "name": "@cct/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./zod/task": "./src/zod/task.ts",
+    "./zod/clarify": "./src/zod/clarify.ts",
+    "./zod/modelAdapter": "./src/zod/modelAdapter.ts",
+    "./errors": "./src/errors.ts",
+    "./cron": "./src/cron.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "echo 'no tests yet' && exit 0"
+  },
+  "dependencies": {
+    "@trpc/server": "11.0.0-rc.682",
+    "cron-parser": "5.0.4",
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "5.7.2"
+  }
+}

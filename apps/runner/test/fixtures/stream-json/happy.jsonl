@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","session_id":"sess_demo","model":"kimi-k2.6"}
+{"type":"assistant","message":{"content":[{"type":"text","text":"你好，我会按时执行任务。"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"已完成检查。"}]}}
+{"type":"result","total_cost_usd":0.0125,"result":"任务已完成。共处理 3 条记录。","usage":{"input_tokens":1234,"output_tokens":567,"cache_read_input_tokens":89}}

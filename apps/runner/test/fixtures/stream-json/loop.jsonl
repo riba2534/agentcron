@@ -1,0 +1,9 @@
+{"type":"system","subtype":"init","session_id":"sess_loop","model":"kimi-k2.6"}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 1"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 2"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 3"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 4"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 5"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 6"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 7"}]}}
+{"type":"assistant","message":{"content":[{"type":"text","text":"line 8"}]}}

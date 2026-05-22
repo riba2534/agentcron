@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 60 4% 11%;
+    --muted: 60 4% 95%;
+    --muted-foreground: 60 4% 35%;
+    --border: 60 4% 90%;
+    --ring: 235 67% 62%;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 240 14% 96%;
+    --muted: 240 8% 12%;
+    --muted-foreground: 240 5% 65%;
+    --border: 240 8% 14%;
+    --ring: 235 64% 64%;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-neutral-0 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50;
+    font-family:
+      Inter,
+      -apple-system,
+      'SF Pro Text',
+      'PingFang SC',
+      'Source Han Sans CN',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500/40;
+  }
+}

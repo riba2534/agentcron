@@ -1,0 +1,38 @@
+{
+  "name": "claude-crontab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "db:push": "pnpm --filter @cct/db prisma db push",
+    "db:generate": "pnpm --filter @cct/db prisma generate",
+    "dev": "pnpm --filter @cct/web dev",
+    "build": "pnpm -r --filter './packages/*' build && pnpm --filter @cct/web build && pnpm --filter @cct/runner build && pnpm --filter @cct/doctor build",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "test": "pnpm -r --filter './packages/*' test",
+    "typecheck": "pnpm -r --filter './apps/*' --filter './packages/*' typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "typescript": "5.7.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "sharp"
+    ]
+  }
+}

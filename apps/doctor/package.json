@@ -1,0 +1,29 @@
+{
+  "name": "@cct/doctor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cct-doctor": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "node build.mjs && chmod +x ./dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "start": "node ./dist/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cct/db": "workspace:*",
+    "@cct/scheduler": "workspace:*",
+    "@cct/secrets": "workspace:*",
+    "@cct/shared": "workspace:*",
+    "@prisma/client": "5.22.0",
+    "chalk": "^5.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.5",
+    "esbuild": "^0.28.0",
+    "typescript": "5.7.2",
+    "vitest": "2.1.9"
+  }
+}

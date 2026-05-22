@@ -1,0 +1,149 @@
+// Claude Crontab · Prisma schema (SQLite for MVP)
+// Source of truth: design/05-backend.md §2
+// 注意：所有 JSON 字段统一存 String，应用层 JSON.parse，规避 SQLite/Postgres Json 行为差异。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("CCT_DB_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  displayName  String?
+  timezone     String   @default("Asia/Shanghai")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tasks           Task[]
+  modelAdapters   ModelAdapter[]
+  clarifySessions ClarificationSession[]
+  auditLogs       AuditLog[]
+}
+
+model ModelAdapter {
+  id              String    @id @default(cuid())
+  userId          String
+  alias           String
+  displayName     String
+  baseUrl         String
+  modelId         String
+  authTokenCipher String
+  envExtraJson    String    @default("{}")
+  trustLevel      String
+  enabled         Boolean   @default(true)
+  lastTestedAt    DateTime?
+  lastTestResult  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks Task[]
+
+  @@unique([userId, alias])
+  @@index([userId, enabled])
+}
+
+model Task {
+  id               String    @id @default(cuid())
+  userId           String
+  modelAdapterId   String
+  name             String
+  rawInput         String
+  commandPrompt    String
+  systemPrompt     String?
+  workingDirectory String
+  cronExpression   String
+  timezone         String
+  timeoutMs        Int       @default(900000)
+  maxBudgetUsd     Float
+  monthlyBudgetCap Float?
+  enabled          Boolean   @default(true)
+  status           String    @default("active")
+  specJson         String
+  notifyConfigJson String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  lastSyncedAt    DateTime?
+  lastSyncError    String?
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  modelAdapter ModelAdapter @relation(fields: [modelAdapterId], references: [id])
+  runs         TaskRun[]
+  auditLogs    AuditLog[]
+
+  @@unique([userId, name])
+  @@index([userId, status, enabled])
+}
+
+model TaskRun {
+  id              String    @id @default(cuid())
+  taskId          String
+  status          String
+  triggerSource   String
+  startedAt       DateTime  @default(now())
+  endedAt         DateTime?
+  exitCode        Int?
+  costUsd         Float?
+  inputTokens     Int?
+  outputTokens    Int?
+  cacheReadTokens Int?
+  stdoutDigest    String?
+  stderrDigest    String?
+  summary         String?
+  logFilePath     String?
+  skipReason      String?
+  pid             Int?
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId, startedAt(sort: Desc)])
+  @@index([status, startedAt])
+}
+
+model ClarificationSession {
+  id             String   @id @default(cuid())
+  userId         String
+  modelAdapterId String
+  rawInput       String
+  status         String
+  turnsJson      String   @default("[]")
+  finalSpecJson  String?
+  createdTaskId  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, createdAt(sort: Desc)])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  taskId      String?
+  action      String
+  payloadJson String
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  task Task? @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([taskId, createdAt(sort: Desc)])
+}
+
+model RunnerLock {
+  id         String   @id @default(cuid())
+  scope      String   @unique
+  acquiredAt DateTime
+  acquiredBy Int
+  expiresAt  DateTime
+}
